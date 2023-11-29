@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                   https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
+    <embeddable name="Shared\Domain\ValueObject\Address">
+        <field name="addressType" type="string" enum-type="Shared\Domain\ValueObject\AddressType" column="type" nullable="false" length="20" />
+        <field name="line1" type="string" length="255" nullable="false"/>
+        <field name="line2" type="string" length="255" nullable="true"/>
+        <field name="zipcode" type="string" length="20" nullable="false"/>
+        <field name="city" type="string" length="255" nullable="false"/>
+        <field name="state" type="string" length="255" nullable="true"/>
+        <field name="country" type="string" length="255" nullable="false"/>
+    </embeddable>
+</doctrine-mapping>
+

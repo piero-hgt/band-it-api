@@ -1,0 +1,13 @@
+framework:
+    exceptions:
+        Symfony\Component\Serializer\Exception\ExceptionInterface:
+            status_code: 400
+        InvalidArgumentException:
+            status_code: 400
+        Doctrine\ORM\OptimisticLockException:
+            status_code: 409
+        Shared\Domain\Exception\FieldCannotBeNullException:
+            status_code: 422
+        Venue\Domain\Exception\VenueNotFoundException:
+            status_code: 404
+

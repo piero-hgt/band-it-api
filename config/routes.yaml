@@ -1,0 +1,7 @@
+api_login_check:
+    path: /login_check
+
+# includes
+venues:
+    resource: '../src/Venue/Infrastructure/Resources/routes/venues.yaml'
+    prefix: /v1/

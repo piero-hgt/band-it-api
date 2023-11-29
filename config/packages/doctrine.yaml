@@ -1,0 +1,73 @@
+doctrine:
+    dbal:
+        url: '%env(resolve:DATABASE_URL)%'
+
+        # IMPORTANT: You MUST configure your server version,
+        # either here or in the DATABASE_URL env var (see .env file)
+        #server_version: '15'
+
+        profiling_collect_backtrace: '%kernel.debug%'
+
+        types:
+            carbon_immutable: \Carbon\Doctrine\CarbonImmutableType
+            carbon: \Carbon\Doctrine\CarbonType
+            file: Shared\Infrastructure\Doctrine\Type\FileType
+
+    orm:
+        auto_generate_proxy_classes: true
+        enable_lazy_ghost_objects: true
+        report_fields_where_declared: true
+        validate_xml_mapping: true
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        auto_mapping: true
+        mappings:
+            # Shared:
+            #     type: xml
+            #     is_bundle: false
+            #     dir: '%kernel.project_dir%/src/Shared/Infrastructure/Resources/mapping/entity'
+            #     prefix: 'Shared\Domain\Entity'
+            #     alias: Shared
+            SharedVO:
+                is_bundle: false
+                type: xml
+                dir: '%kernel.project_dir%/src/Shared/Infrastructure/Resources/mapping/value_object'
+                prefix: 'Shared\Domain\ValueObject'
+                alias: SharedVO
+            User:
+                type: xml
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/User/Infrastructure/Resources/mapping/entity'
+                prefix: 'User\Domain\Entity'
+                alias: User
+            Venue:
+                type: xml
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Venue/Infrastructure/Resources/mapping/entity'
+                prefix: 'Venue\Domain\Entity'
+                alias: Venue
+
+when@test:
+    doctrine:
+        dbal:
+            # "TEST_TOKEN" is typically set by ParaTest
+            dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+
+when@prod:
+    doctrine:
+        orm:
+            auto_generate_proxy_classes: false
+            proxy_dir: '%kernel.build_dir%/doctrine/orm/Proxies'
+            query_cache_driver:
+                type: pool
+                pool: doctrine.system_cache_pool
+            result_cache_driver:
+                type: pool
+                pool: doctrine.result_cache_pool
+
+    framework:
+        cache:
+            pools:
+                doctrine.result_cache_pool:
+                    adapter: cache.app
+                doctrine.system_cache_pool:
+                    adapter: cache.system

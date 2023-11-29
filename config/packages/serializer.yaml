@@ -1,0 +1,6 @@
+framework:
+    serializer:
+        mapping:
+            paths:
+                - '%kernel.project_dir%/src/Shared/Infrastructure/Resources/serializer'
+                - '%kernel.project_dir%/src/Venue/Infrastructure/Resources/serializer'

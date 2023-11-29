@@ -1,0 +1,23 @@
+get_venues:
+    path: /venues
+    controller: Venue\Presentation\Http\Rest\Controller\GetVenuesController
+    methods: [ 'GET' ]
+
+add_venue:
+    path: /venues
+    controller: Venue\Presentation\Http\Rest\Controller\AddVenueController
+    methods: [ 'POST' ]
+
+get_venue:
+    path: /venues/{venueId}
+    controller: Venue\Presentation\Http\Rest\Controller\GetVenueController
+    methods: [ 'GET' ]
+    requirements:
+        venueId: '%uuid_regex%'
+
+update_venue:
+    path: /venues/{venueId}
+    controller: Venue\Presentation\Http\Rest\Controller\UpdateVenueController
+    methods: [ 'PUT' ]
+    requirements:
+        venueId: '%uuid_regex%'
