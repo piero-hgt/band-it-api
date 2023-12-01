@@ -10,9 +10,9 @@ use Symfony\Component\HttpFoundation\Request;
 class AddVenueInputDTO
 {
     public function __construct(
-        public readonly string $name,
-        public readonly string $type,
-        public readonly AddressInputDTO $address,
+        public readonly ?string $name,
+        public readonly ?string $type,
+        public readonly ?AddressInputDTO $address,
         public readonly ?string $description,
         public readonly ?string $season
     ) {
@@ -22,10 +22,12 @@ class AddVenueInputDTO
     {
         $params = $request->request->all();
 
+        $address = $params['address'] ?? null;
+
         return new self(
-            $params['name'],
-            $params['type'],
-            AddressInputDTO::fromArray($params['address']),
+            $params['name'] ?? null,
+            $params['type'] ?? null,
+            $address ? AddressInputDTO::fromArray($address) : null,
             $params['description'] ?? null,
             $params['season'] ?? null,
         );

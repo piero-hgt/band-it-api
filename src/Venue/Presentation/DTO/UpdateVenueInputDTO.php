@@ -7,8 +7,9 @@ namespace Venue\Presentation\DTO;
 use Ramsey\Uuid\UuidInterface;
 use Shared\Presentation\DTO\AddressInputDTO;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\GroupSequenceProviderInterface;
 
-class UpdateVenueInputDTO
+class UpdateVenueInputDTO implements GroupSequenceProviderInterface
 {
     public function __construct(
         public readonly array $updateKeys,
@@ -31,5 +32,22 @@ class UpdateVenueInputDTO
             $addressData ? AddressInputDTO::fromArray($addressData) : null,
             $params['description'] ?? null,
         );
+    }
+
+    /**
+     * @return array<string|null>
+     */
+    public function getGroupSequence(): array
+    {
+        $groups = ['UpdateVenueInputDTO'];
+        $keys = ['name', 'type', 'address'];
+
+        foreach ($keys as $key) {
+            if (in_array($key, $this->updateKeys)) {
+                $groups[] = "UpdateVenueInputDTO.{$key}";
+            }
+        }
+
+        return $groups;
     }
 }
