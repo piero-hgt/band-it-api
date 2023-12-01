@@ -13,7 +13,8 @@ class AddVenueInputDTO
         public readonly string $name,
         public readonly string $type,
         public readonly AddressInputDTO $address,
-        public readonly ?string $description
+        public readonly ?string $description,
+        public readonly ?string $season
     ) {
     }
 
@@ -26,6 +27,7 @@ class AddVenueInputDTO
             $params['type'],
             AddressInputDTO::fromArray($params['address']),
             $params['description'] ?? null,
+            $params['season'] ?? null,
         );
     }
 }

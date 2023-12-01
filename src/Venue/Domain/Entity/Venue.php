@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Venue\Domain\Entity;
 
 use Carbon\CarbonImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Shared\Domain\ValueObject\Address;
@@ -14,19 +16,34 @@ use Venue\Domain\ValueObject\VenueType;
 class Venue
 {
     private readonly UuidInterface $id;
+
     private readonly CarbonImmutable $createdAt;
+
     private CarbonImmutable $updatedAt;
+
+    /**
+     * @var Collection<int, Contact>
+     */
+    private Collection $contacts;
+
+    /**
+     * @var Collection<int, Person>
+     */
+    private Collection $persons;
 
     public function __construct(
         private string $name,
         private VenueType $type,
         private Address $address,
-        private ?string $description,
-        private ?File $avatar
+        private ?string $description = null,
+        private ?File $avatar = null,
+        private ?string $season = null,
     ) {
         $this->id = Uuid::uuid4();
         $this->createdAt = CarbonImmutable::now();
         $this->updatedAt = CarbonImmutable::now();
+        $this->contacts = new ArrayCollection();
+        $this->persons = new ArrayCollection();
     }
 
     public function getId(): UuidInterface
@@ -54,23 +71,11 @@ class Venue
         return $this->description;
     }
 
-    public function setName(string $name): void
+    public function update(array $updatedAt): void
     {
-        $this->name = $name;
-    }
-
-    public function setType(VenueType $type): void
-    {
-        $this->type = $type;
-    }
-
-    public function setAddress(Address $address): void
-    {
-        $this->address = $address;
-    }
-
-    public function setDescription(?string $description): void
-    {
-        $this->description = $description;
+        foreach ($updatedAt as $key => $value) {
+            $this->$key = $value;
+        }
+        $this->updatedAt = CarbonImmutable::now();
     }
 }

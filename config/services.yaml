@@ -48,10 +48,6 @@ services:
             tags:
                 - { name: messenger.message_handler, bus: event.bus }
 
-    Shared\Infrastructure\Bus\Middleware\FailureCatchMiddleware:
-        arguments:
-            $maxRetries: '%async_max_retries%'
-
     Venue\Presentation\Http\Rest\Controller\:
         resource: '../src/Venue/Presentation/Http/Rest/Controller'
         tags: ['controller.service_arguments']

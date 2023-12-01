@@ -15,6 +15,7 @@ class AddVenueCommand implements CommandInterface
         public readonly VenueType $type,
         public readonly Address $address,
         public readonly ?string $description,
+        public readonly ?string $season,
     ) {
     }
 }

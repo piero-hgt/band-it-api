@@ -22,16 +22,18 @@ class VenueService
         VenueType $type,
         Address $address,
         ?string $description,
-    ): void {
+        ?string $season,
+    ): Venue {
         $venue = new Venue(
             $name,
             $type,
             $address,
             $description,
-            null
         );
 
         $this->venueRepository->save($venue);
+
+        return $venue;
     }
 
     public function update(
@@ -44,32 +46,35 @@ class VenueService
     ): void {
         $venue = $this->venueRepository->findOneById($id);
 
+        $updates = [];
         foreach ($updateKeys as $key) {
             switch ($key) {
                 case 'name':
                     if (null === $name) {
                         throw FieldCannotBeNullException::fromEntityAndField(Venue::class, $key);
                     }
-                    $venue->setName($name);
+                    $updates[$key] = $name;
                     break;
                 case 'type':
                     if (null === $type) {
                         throw FieldCannotBeNullException::fromEntityAndField(Venue::class, $key);
                     }
-                    $venue->setType($type);
+                    $updates[$key] = $type;
                     break;
                 case 'address':
                     if (null === $address) {
                         throw FieldCannotBeNullException::fromEntityAndField(Venue::class, $key);
                     }
 
-                    $venue->setAddress($address);
+                    $updates[$key] = $address;
                     break;
                 case 'description':
-                    $venue->setDescription($description);
+                    $updates[$key] = $description;
                     break;
             }
         }
+
+        $venue->update($updates);
 
         $this->venueRepository->save($venue);
     }

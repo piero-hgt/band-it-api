@@ -19,8 +19,10 @@ class Address
 
     public static function fromArray(array $address): self
     {
+        $addressType = $address['addressType'] ?? null;
+
         return new self(
-            AddressType::from($address['addressType']),
+            $addressType ? AddressType::from($addressType) : AddressType::CUSTOM,
             $address['line1'] ?? null,
             $address['line2'] ?? null,
             $address['zipcode'] ?? null,

@@ -4,17 +4,13 @@
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                    https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
-    <entity name="Venue\Domain\Entity\Venue" table="venue">
+    <entity name="Venue\Domain\Entity\Person" table="person">
         <id name="id" type="uuid" />
         <field name="createdAt" type="carbon_immutable" nullable="false"/>
         <field name="updatedAt" type="carbon_immutable" nullable="false"/>
         <field name="name" type="string" length="255" nullable="false"/>
-        <field name="type" type="string" length="20" enum-type="Venue\Domain\ValueObject\VenueType" nullable="false"/>
-        <field name="avatar" type="file" nullable="true"/>
-        <embedded name="address" class="Shared\Domain\ValueObject\Address"/>
-        <field name="description" type="text" nullable="true"/>
-        <field name="season" type="string" length="50" nullable="true"/>
-        <one-to-many field="contacts" target-entity="Venue\Domain\Entity\Contact" mapped-by="venue"/>
-        <one-to-many field="persons" target-entity="Venue\Domain\Entity\Person" mapped-by="venue"/>
+        <field name="description" type="string" length="255" nullable="true"/>
+        <one-to-many field="contacts" target-entity="Venue\Domain\Entity\Contact" mapped-by="person"/>
+        <many-to-one field="venue" target-entity="Venue\Domain\Entity\Venue" inversed-by="venue"/>
     </entity>
 </doctrine-mapping>
